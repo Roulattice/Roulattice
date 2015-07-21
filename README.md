@@ -8,7 +8,7 @@ Roulattice is a command line operated program that creates polymer conformations
 
 Get the source code of Roulattice from the GitHub repository:
 
-$ git clone --recursive https://github.com/propairs/propairs
+$ git clone --recursive https://github.com/Roulattice/Roulattice
   
 Or by downloading the ZIP-file of the whole repository. Unpack (if neccessary) the files at any chosen location of the computer. Change into the directory and compille the programm:
 
