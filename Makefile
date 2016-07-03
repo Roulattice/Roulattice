@@ -1,6 +1,9 @@
 CCOMP = gcc
-#OPT = -m64 -O3 -Wall -lm # linux (Ubuntu) version
+OPT = -m64 -O3 -Wall -lm -std=c99 # linux (Ubuntu) version
+
+ifeq "$(OSTYPE)" "darwin"
 OPT = -m64 -O3 -Wall # MacOS X version
+endif
 
 
 INCLUDE = include
@@ -23,14 +26,18 @@ all: depend $(PROGRAMS)
 depend: $(SOURCES)
 	$(CCOMP) -I$(INCLUDE) -MM $(SOURCES) > $(DEPENDFILE)
 
+$(BIN):
+	mkdir -p $(BIN)
+
 Roulattice: $(ROUL_C)
-	$(CCOMP) -o Roulattice $(patsubst %.o,$(BIN)/%.o,$(ROUL_C))
+	$(CCOMP) -o Roulattice $(patsubst %.o,$(BIN)/%.o,$(ROUL_C)) $(OPT)
 
 
-%.o: %.c
+%.o: %.c $(BIN)
 	$(CCOMP) -I$(INCLUDE) -o $(BIN)/$@ -c $< $(OPT)
 
 clean :
 	rm -f $(BIN)/*.o
+	rm -df $(BIN)
 	for i in . $(SRC) $(INCLUDE); do rm -f $$i/*~; done
 	for i in $(PROGRAMS); do rm -f $$i; done
