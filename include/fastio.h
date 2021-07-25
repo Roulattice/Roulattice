@@ -25,7 +25,7 @@
 /* Compiling on windows */
 #if defined(_MSC_VER)
 
-#if 1 
+#if 1
 /* use native Windows I/O calls */
 #define FASTIO_NATIVEWIN32 1
 
@@ -52,10 +52,10 @@ typedef struct {
 static int fio_win32convertfilename(const char *filename, char *newfilename, int maxlen) {
   int i;
   int len=strlen(filename);
- 
+
   if ((len + 1) >= maxlen)
     return -1;
-   
+
   for (i=0; i<len; i++) {
     if (filename[i] == '/')
       newfilename[i] = '\\';
@@ -77,7 +77,7 @@ static int fio_open(const char *filename, int mode, fio_fd *fd) {
   DWORD flags;
 
   if (fio_win32convertfilename(filename, winfilename, sizeof(winfilename)))
-    return -1;  
+    return -1;
 
   access = 0;
   if (mode & FIO_READ)
@@ -94,12 +94,12 @@ static int fio_open(const char *filename, int mode, fio_fd *fd) {
   /* since we never append, blow away anything that's already there */
   if (mode & FIO_WRITE)
     createmode = CREATE_ALWAYS;
-  else 
+  else
     createmode = OPEN_EXISTING;
 
   flags = FILE_ATTRIBUTE_NORMAL;
 
-  fp = CreateFile(winfilename, access, sharing, security, 
+  fp = CreateFile(winfilename, access, sharing, security,
                   createmode, flags, NULL);
 
   if (fp == NULL) {
@@ -114,13 +114,13 @@ static int fio_open(const char *filename, int mode, fio_fd *fd) {
 static int fio_fclose(fio_fd fd) {
   BOOL rc;
   rc = CloseHandle(fd);
-  if (rc) 
+  if (rc)
     return 0;
-  else 
+  else
     return -1;
 }
 
-static fio_size_t fio_fread(void *ptr, fio_size_t size, 
+static fio_size_t fio_fread(void *ptr, fio_size_t size,
                             fio_size_t nitems, fio_fd fd) {
   BOOL rc;
   DWORD len;
@@ -132,7 +132,7 @@ static fio_size_t fio_fread(void *ptr, fio_size_t size,
   if (rc) {
     if (readlen == len)
       return nitems;
-    else 
+    else
       return 0;
   } else {
     return 0;
@@ -141,7 +141,7 @@ static fio_size_t fio_fread(void *ptr, fio_size_t size,
 
 static fio_size_t fio_readv(fio_fd fd, const fio_iovec * iov, int iovcnt) {
   int i;
-  fio_size_t len = 0; 
+  fio_size_t len = 0;
 
   for (i=0; i<iovcnt; i++) {
     fio_size_t rc = fio_fread(iov[i].iov_base, iov[i].iov_len, 1, fd);
@@ -153,14 +153,14 @@ static fio_size_t fio_readv(fio_fd fd, const fio_iovec * iov, int iovcnt) {
   return len;
 }
 
-static fio_size_t fio_fwrite(void *ptr, fio_size_t size, 
+static fio_size_t fio_fwrite(void *ptr, fio_size_t size,
                              fio_size_t nitems, fio_fd fd) {
   BOOL rc;
   DWORD len;
   DWORD writelen;
 
-  len = size * nitems; 
- 
+  len = size * nitems;
+
   rc = WriteFile(fd, ptr, len, &writelen, NULL);
   if (rc) {
     if (writelen == len)
@@ -190,7 +190,7 @@ static fio_size_t fio_fseek(fio_fd fd, fio_size_t offset, int whence) {
     if (GetLastError() != ERROR_SUCCESS) {
       return -1;
     }
-  } 
+  }
 
   finaloffset = finalint.QuadPart;
   return 0;
@@ -201,7 +201,7 @@ static fio_size_t fio_fseek(fio_fd fd, fio_size_t offset, int whence) {
   /* SetFilePointerEx() only exists with new .NET compilers */
   rc = SetFilePointerEx(fd, offset, &finaloffset, whence);
 
-  if (rc) 
+  if (rc)
     return 0;
   else
     return -1;
@@ -259,11 +259,11 @@ typedef struct {
 static int fio_open(const char *filename, int mode, fio_fd *fd) {
   char * modestr;
   FILE *fp;
- 
-  if (mode == FIO_READ) 
+
+  if (mode == FIO_READ)
     modestr = "rb";
 
-  if (mode == FIO_WRITE) 
+  if (mode == FIO_WRITE)
     modestr = "wb";
 
   fp = fopen(filename, modestr);
@@ -279,14 +279,14 @@ static int fio_fclose(fio_fd fd) {
   return fclose(fd);
 }
 
-static fio_size_t fio_fread(void *ptr, fio_size_t size, 
+static fio_size_t fio_fread(void *ptr, fio_size_t size,
                             fio_size_t nitems, fio_fd fd) {
   return fread(ptr, size, nitems, fd);
 }
 
 static fio_size_t fio_readv(fio_fd fd, const fio_iovec * iov, int iovcnt) {
   int i;
-  fio_size_t len = 0; 
+  fio_size_t len = 0;
 
   for (i=0; i<iovcnt; i++) {
     fio_size_t rc = fread(iov[i].iov_base, iov[i].iov_len, 1, fd);
@@ -298,7 +298,7 @@ static fio_size_t fio_readv(fio_fd fd, const fio_iovec * iov, int iovcnt) {
   return len;
 }
 
-static fio_size_t fio_fwrite(void *ptr, fio_size_t size, 
+static fio_size_t fio_fwrite(void *ptr, fio_size_t size,
                              fio_size_t nitems, fio_fd fd) {
   return fwrite(ptr, size, nitems, fd);
 }
@@ -312,7 +312,7 @@ static fio_size_t fio_ftell(fio_fd fd) {
 }
 #endif /* plain ANSI C */
 
-#else 
+#else
 
 /* Version for UNIX machines */
 #include <unistd.h>
@@ -353,10 +353,10 @@ static int fio_open(const char *filename, int mode, fio_fd *fd) {
   int nfd;
   int oflag = 0;
 
-  if (mode == FIO_READ) 
+  if (mode == FIO_READ)
     oflag = O_RDONLY;
 
-  if (mode == FIO_WRITE) 
+  if (mode == FIO_WRITE)
     oflag = O_WRONLY | O_CREAT | O_TRUNC;
 
   nfd = open(filename, oflag, 0666);
@@ -372,10 +372,10 @@ static int fio_fclose(fio_fd fd) {
   return close(fd);
 }
 
-static fio_size_t fio_fread(void *ptr, fio_size_t size, 
+static fio_size_t fio_fread(void *ptr, fio_size_t size,
                             fio_size_t nitems, fio_fd fd) {
   int i;
-  fio_size_t len = 0; 
+  fio_size_t len = 0;
   int cnt = 0;
 
   for (i=0; i<nitems; i++) {
@@ -394,7 +394,7 @@ static fio_size_t fio_readv(fio_fd fd, const fio_iovec * iov, int iovcnt) {
   return readv(fd, iov, iovcnt);
 #else
   int i;
-  fio_size_t len = 0; 
+  fio_size_t len = 0;
 
   for (i=0; i<iovcnt; i++) {
     fio_size_t rc = read(fd, iov[i].iov_base, iov[i].iov_len);
@@ -407,27 +407,27 @@ static fio_size_t fio_readv(fio_fd fd, const fio_iovec * iov, int iovcnt) {
 #endif
 }
 
-static fio_size_t fio_fwrite(void *ptr, fio_size_t size, 
-                             fio_size_t nitems, fio_fd fd) {
-  int i;
-  fio_size_t len = 0; 
-  int cnt = 0;
+// static fio_size_t fio_fwrite(void *ptr, fio_size_t size,
+//                              fio_size_t nitems, fio_fd fd) {
+//   int i;
+//   fio_size_t len = 0;
+//   int cnt = 0;
 
-  for (i=0; i<nitems; i++) {
-    fio_size_t rc = write(fd, ptr, size);
-    if (rc != size)
-      break;
-    len += rc;
-    cnt++;
-  }
+//   for (i=0; i<nitems; i++) {
+//     fio_size_t rc = write(fd, ptr, size);
+//     if (rc != size)
+//       break;
+//     len += rc;
+//     cnt++;
+//   }
 
-  return cnt;
-}
+//   return cnt;
+// }
 
 static fio_size_t fio_fseek(fio_fd fd, fio_size_t offset, int whence) {
  if (lseek(fd, offset, whence) >= 0)
    return 0;  /* success (emulate behavior of fseek) */
- else 
+ else
    return -1; /* failure (emulate behavior of fseek) */
 }
 
@@ -440,6 +440,7 @@ static fio_size_t fio_ftell(fio_fd fd) {
 
 /* higher level routines that are OS independent */
 
+/*
 static int fio_write_int32(fio_fd fd, int i) {
   return (fio_fwrite(&i, 4, 1, fd) != 1);
 }
@@ -452,4 +453,4 @@ static int fio_write_str(fio_fd fd, const char *str) {
   int len = strlen(str);
   return (fio_fwrite((void *) str, len, 1, fd) != 1);
 }
-
+*/

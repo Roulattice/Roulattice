@@ -23,7 +23,7 @@
 #ifndef ____SASA__
 #define ____SASA__
 
-double pi;
+extern double pi;
 
 double get_asa(double (**chain), unsigned int numberofbeads, double r);
 

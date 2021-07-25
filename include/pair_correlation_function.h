@@ -23,7 +23,7 @@
 #ifndef ____pair_correlation_function__
 #define ____pair_correlation_function__
 
-double pi;
+extern double pi;
 
 int pair_correlation_fct(double (*corr_hist), double (**poly_ptr), const unsigned int numberofbeads);
 

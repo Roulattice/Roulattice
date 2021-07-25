@@ -30,26 +30,26 @@ void print_set_options(FILE *output_ptr, int typeofrun, int flength, int fflengt
 
 
 // initializing the global variables, which will be set in this routine
-int ARG_typeofrun;      // sets method
-int ARG_strictness;     // degree of self-avoidance
-int ARG_blength;        // sets bricklength
-int ARG_flength;        // sets fragment length
+extern int ARG_typeofrun;      // sets method
+extern int ARG_strictness;     // degree of self-avoidance
+extern int ARG_blength;        // sets bricklength
+extern int ARG_flength;        // sets fragment length
 
-long ARG_randomseed;
+extern long ARG_randomseed;
 
-unsigned int ARG_numberofbeads;     // number of atoms in chain
-unsigned long ARG_numberofframes;    // number  of chains that will be generated successfully
+extern unsigned int ARG_numberofbeads;     // number of atoms in chain
+extern unsigned long ARG_numberofframes;    // number  of chains that will be generated successfully
 
 //optional variables
-double ARG_bondlength;  // bond length
-int ARG_torsion;        // switch for torsional analysis
-int ARG_pair_correlation;
-int ARG_intra_potential; // switch for intra molecular potential
-double ARG_intra_parameter1[2];
-double ARG_intra_parameter2[2];
+extern double ARG_bondlength;  // bond length
+extern int ARG_torsion;        // switch for torsional analysis
+extern int ARG_pair_correlation;
+extern int ARG_intra_potential; // switch for intra molecular potential
+extern double ARG_intra_parameter1[2];
+extern double ARG_intra_parameter2[2];
 
 
-char* dcdFileName; // name of the dcd file which is to be loaded instead of a generation run
+extern char* dcdFileName; // name of the dcd file which is to be loaded instead of a generation run
 
 
 #endif /* defined(____getArgs__) */

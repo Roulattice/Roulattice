@@ -88,28 +88,28 @@ typedef struct{
 
 void subString(const char *source, int begin, int end, char *destination);
 
-static void print_dcderror(const char *func, int errcode);
+void print_dcderror(const char *func, int errcode);
 
-static int read_dcdheader(fio_fd fd, int *N, int *NSET, int *ISTART,
+int read_dcdheader(fio_fd fd, int *N, int *NSET, int *ISTART,
                           int *NSAVC, double *DELTA, int *NAMNF,
                           int **FREEINDEXES, float **fixedcoords, int *reverseEndian,
                           int *charmm);
 
-static int read_charmm_extrablock(fio_fd fd, int charmm, int reverseEndian,
+int read_charmm_extrablock(fio_fd fd, int charmm, int reverseEndian,
                                   float *unitcell);
 
-static int read_fixed_atoms(fio_fd fd, int N, int num_free, const int *indexes,
+int read_fixed_atoms(fio_fd fd, int N, int num_free, const int *indexes,
                             int reverseEndian, const float *fixedcoords,
                             float *freeatoms, float *pos, int charmm);
 
-static int read_charmm_4dim(fio_fd fd, int charmm, int reverseEndian);
+int read_charmm_4dim(fio_fd fd, int charmm, int reverseEndian);
 
-static int read_dcdstep(fio_fd fd, int N, float *X, float *Y, float *Z,
+int read_dcdstep(fio_fd fd, int N, float *X, float *Y, float *Z,
                         float *unitcell, int num_fixed,
                         int first, int *indexes, float *fixedcoords,
                         int reverseEndian, int charmm);
 
-static int skip_dcdstep(fio_fd fd, int natoms, int nfixed, int charmm);
+int skip_dcdstep(fio_fd fd, int natoms, int nfixed, int charmm);
 
 // static int write_dcdstep(fio_fd fd, int curframe, int curstep, int N, const float *X, const float *Y, const float *Z, const double *unitcell, int charmm);
 
