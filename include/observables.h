@@ -24,8 +24,8 @@
 #define ____observables__
 
 // global variables
-int ARG_blength;
-double pi;
+extern double pi;
+extern int ARG_blength;        // sets bricklength
 
 typedef struct {
     double ee2;
@@ -35,15 +35,15 @@ typedef struct {
     double dsasa;
     double *pair_corr;
     double S;
-    
-    
+
+
     double *err_ee2;
     double *err_rgyr;
     double *err_pt;
     double *err_dsasa;
     double err_S;
-    
-    
+
+
 }OBSERVABLE;
 
 

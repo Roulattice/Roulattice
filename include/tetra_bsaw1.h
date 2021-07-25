@@ -23,7 +23,7 @@
 #ifndef ____tetra_bsaw1__
 #define ____tetra_bsaw1__
 
-long ARG_randomseed;
+extern long ARG_randomseed;
 
 void tetra_bsaw1 (int (**poly_ptr), const int (move_ptr)[2][4][3], const int (saw_ptr)[4][3], unsigned int numberofbeads, int blength_var, int numbricks_var, int (***bricks_ptr), unsigned long *tries);
 
